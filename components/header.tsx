@@ -1,8 +1,5 @@
-"use client";
-
+import HeaderActions from "./header-actions";
 import { ModeToggle } from "./mode-toggle";
-import { SignInButton, UserButton } from "@clerk/nextjs";
-import { Authenticated, Unauthenticated } from "convex/react";
 
 export default function Header() {
   return (
@@ -12,16 +9,9 @@ export default function Header() {
           <h1 className="text-2xl font-medium">Big Brain</h1>
         </div>
 
-        <div>
-          <Unauthenticated>
-            <SignInButton />
-          </Unauthenticated>
-          <Authenticated>
-            <div className="flex items-center gap-4">
-              <ModeToggle />
-              <UserButton />
-            </div>
-          </Authenticated>
+        <div className="flex items-center gap-4">
+          <ModeToggle />
+          <HeaderActions />
         </div>
       </div>
     </div>
