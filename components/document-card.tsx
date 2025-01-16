@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "./ui/button";
+import { Eye } from "lucide-react";
 
 export default function DocumentCard({
   document,
@@ -25,7 +26,10 @@ export default function DocumentCard({
         <p>Card Content</p>
       </CardContent>
       <CardFooter>
-        <Button variant="secondary">View</Button>
+        <Button className="flex items-center gap-2" variant="secondary">
+          <Eye />
+          View
+        </Button>
       </CardFooter>
     </Card>
   );

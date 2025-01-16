@@ -5,7 +5,6 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -17,18 +16,21 @@ import {
 import { Input } from "@/components/ui/input";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { Loader2 } from "lucide-react";
+import SubmitButton from "./submit-button";
 
 const formSchema = z.object({
   title: z.string().min(2).max(250),
+  file: z.instanceof(File),
 });
 
-export default function CreateDocumentForm({
+export default function UploadDocumentForm({
   onUpload,
 }: {
   onUpload: () => void;
 }) {
   const createDocument = useMutation(api.documents.createDocument);
+  const generateUploadUrl = useMutation(api.documents.generateUploadUrl);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -41,7 +43,20 @@ export default function CreateDocumentForm({
   } = form;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    await createDocument(values);
+    const url = await generateUploadUrl();
+
+    const result = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": values.file.type },
+      body: values.file,
+    });
+
+    const { storageId } = await result.json();
+
+    await createDocument({
+      title: values.title,
+      storageId,
+    });
     onUpload();
   }
 
@@ -49,8 +64,8 @@ export default function CreateDocumentForm({
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
-          control={form.control}
           name="title"
+          control={form.control}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Title</FormLabel>
@@ -62,14 +77,33 @@ export default function CreateDocumentForm({
           )}
         />
 
-        <Button
-          className="flex items-center gap-1"
-          disabled={isSubmitting}
-          type="submit"
+        <FormField
+          name="file"
+          control={form.control}
+          render={({ field: { onChange, ref } }) => (
+            <FormItem>
+              <FormLabel>File</FormLabel>
+              <FormControl>
+                <Input
+                  type="file"
+                  accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt"
+                  ref={ref}
+                  onChange={(event) => {
+                    const file = event.target.files?.[0];
+                    onChange(file);
+                  }}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <SubmitButton
+          submittingLabel="Submitting..."
+          isSubmitting={isSubmitting}
         >
-          {isSubmitting && <Loader2 className="animate-spin" />}
-          <span>{isSubmitting ? "Uploading..." : "Upload"}</span>
-        </Button>
+          Submit
+        </SubmitButton>
       </form>
     </Form>
   );

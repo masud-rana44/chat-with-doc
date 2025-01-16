@@ -1,7 +1,7 @@
 "use client";
 
-import CreateDocument from "@/components/create-document";
 import DocumentCard from "@/components/document-card";
+import UploadDocument from "@/components/upload-document";
 import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
 
@@ -13,7 +13,7 @@ export default function Home() {
       <div className="py-20 flex items-center justify-between">
         <h1 className="text-4xl font-bold">My Documents</h1>
 
-        <CreateDocument />
+        <UploadDocument />
       </div>
 
       <div className="grid grid-cols-4 gap-8">
