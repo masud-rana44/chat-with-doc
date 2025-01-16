@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "./ui/button";
 import { Eye } from "lucide-react";
+import Link from "next/link";
 
 export default function DocumentCard({
   document,
@@ -26,9 +27,11 @@ export default function DocumentCard({
         <p>Card Content</p>
       </CardContent>
       <CardFooter>
-        <Button className="flex items-center gap-2" variant="secondary">
-          <Eye />
-          View
+        <Button asChild variant="secondary">
+          <Link href={`/documents/${document._id}`}>
+            <Eye className="w-4 h-4" />
+            View
+          </Link>
         </Button>
       </CardFooter>
     </Card>
