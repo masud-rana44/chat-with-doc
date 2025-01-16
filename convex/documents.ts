@@ -2,16 +2,28 @@ import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 
 export const getDocuments = query({
-  args: {},
   handler: async (ctx) => {
-    return await ctx.db.query("documents").collect();
+    const userToken = (await ctx.auth.getUserIdentity())?.tokenIdentifier;
+    if (!userToken) return [];
+
+    return await ctx.db
+      .query("documents")
+      .withIndex("by_tokenIdentifier", (q) =>
+        q.eq("tokenIdentifier", userToken)
+      )
+      .collect();
   },
 });
 
 export const createDocument = mutation({
   args: { title: v.string() },
   handler: async (ctx, args) => {
-    console.log(args);
-    await ctx.db.insert("documents", { title: "Hello" });
+    const userToken = (await ctx.auth.getUserIdentity())?.tokenIdentifier;
+    if (!userToken) throw new Error("Not authenticated");
+
+    await ctx.db.insert("documents", {
+      title: args.title,
+      tokenIdentifier: userToken,
+    });
   },
 });
