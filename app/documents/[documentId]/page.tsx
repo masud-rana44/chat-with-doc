@@ -5,6 +5,7 @@ import { Id } from "@/convex/_generated/dataModel";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useParams } from "next/navigation";
+import ChatPanel from "@/components/chat-panel";
 
 export default function DocumentIdPage() {
   const params = useParams();
@@ -28,13 +29,15 @@ export default function DocumentIdPage() {
       <h1 className="text-4xl font-bold">{document.title}</h1>
 
       <div className="flex gap-12">
-        <div className="bg-gray-900 p-4 rounded flex-1 h-[600px]">
+        <div className="bg-gray-900 p-4 rounded flex-1 h-[700px]">
           {document.documentUrl && (
             <iframe src={document.documentUrl} className="w-full h-full" />
           )}
         </div>
 
-        <div className="bg-gray-900 w-[450px]"></div>
+        <div className="bg-gray-900 w-[450px] rounded p-4">
+          <ChatPanel documentId={documentId} />
+        </div>
       </div>
     </main>
   );
