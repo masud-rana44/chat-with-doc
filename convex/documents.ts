@@ -186,8 +186,6 @@ export const aksQuestion = action({
     const text = await file.text();
     const truncatedText = text.slice(0, maxTokenLength);
 
-    console.log({ text });
-
     const chatCompletion: OpenAI.Chat.Completions.ChatCompletion =
       await client.chat.completions.create({
         messages: [
@@ -210,7 +208,7 @@ export const aksQuestion = action({
     // Create chat document for Human
     await ctx.runMutation(internal.chats.createChatRecord, {
       documentId: args.documentId,
-      text,
+      text: args.question,
       isHuman: true,
       tokenIdentifier: accessObj.userId,
     });

@@ -1,44 +1,42 @@
-import React, { FormEvent } from "react";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
-import { useAction } from "convex/react";
-import { api } from "@/convex/_generated/api";
+import React from "react";
 import { Id } from "@/convex/_generated/dataModel";
+import QuestionForm from "./question-form";
+import { api } from "@/convex/_generated/api";
+import { useQuery } from "convex/react";
+import { cn } from "@/lib/utils";
 
 export default function ChatPanel({
   documentId,
 }: {
   documentId: Id<"documents">;
 }) {
-  const askQuestion = useAction(api.documents.aksQuestion);
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const form = e.target as HTMLFormElement;
-    const formData = new FormData(form);
-
-    const message = formData.get("message") as string;
-
-    const result = await askQuestion({ question: message, documentId });
-    console.log({ result });
-  };
+  const chats = useQuery(api.chats.getChatsForDocument, {
+    documentId,
+  });
 
   return (
     <div className="flex flex-col gap-4 h-full">
-      <div className="overflow-y-auto flex-1">
-        <div>THis is a chat</div>
-        <div>THis is a chat</div>
-        <div>THis is a chat</div>
-        <div>THis is a chat</div>
-        <div>THis is a chat</div>
-        <div>THis is a chat</div>
+      <div className="flex-1 overflow-y-auto space-y-3">
+        <div className="bg-slate-900 rounded p-3">
+          AI: Ask any question using AI about this document below:
+        </div>
+        {chats?.map((chat) => (
+          <div
+            key={chat._id}
+            className={cn(
+              {
+                "bg-slate-800 text-right": chat.isHuman,
+                "bg-slate-950": !chat.isHuman,
+              },
+              "rounded p-4 whitespace-pre-line"
+            )}
+          >
+            {chat.isHuman ? "YOU" : "AI"}: {chat.text}
+          </div>
+        ))}
       </div>
 
-      <form onSubmit={handleSubmit} className="flex gap-2">
-        <Input required className="flex-1" name="message" type="text" />
-        <Button>Send</Button>
-      </form>
+      <QuestionForm documentId={documentId} />
     </div>
   );
 }
