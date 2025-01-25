@@ -8,6 +8,7 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
+import { SendHorizonalIcon } from "lucide-react";
 
 const formSchema = z.object({
   query: z.string().min(2).max(250),
@@ -54,10 +55,10 @@ export default function QuestionForm({
           )}
         />
         <SubmitButton
+          submittingLabel=""
           isSubmitting={form.formState.isSubmitting}
-          submittingLabel="Sending..."
         >
-          Send
+          <SendHorizonalIcon />
         </SubmitButton>
       </form>
     </Form>

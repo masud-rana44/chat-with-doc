@@ -13,7 +13,7 @@ export default function SubmitButton({
 }) {
   return (
     <Button
-      className="flex items-center gap-1"
+      className="flex items-center gap-1 disabled:opacity-50"
       disabled={isSubmitting}
       type="submit"
     >

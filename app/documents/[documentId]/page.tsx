@@ -6,6 +6,7 @@ import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useParams } from "next/navigation";
 import ChatPanel from "@/components/chat-panel";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function DocumentIdPage() {
   const params = useParams();
@@ -28,17 +29,22 @@ export default function DocumentIdPage() {
     <main className="container mx-auto py-10 space-y-8">
       <h1 className="text-4xl font-bold">{document.title}</h1>
 
-      <div className="flex gap-12">
-        <div className="bg-gray-900 p-4 rounded flex-1 h-[700px]">
-          {document.documentUrl && (
-            <iframe src={document.documentUrl} className="w-full h-full" />
-          )}
-        </div>
-
-        <div className="bg-gray-900 w-[450px] rounded p-4">
+      <Tabs defaultValue="document">
+        <TabsList>
+          <TabsTrigger value="document">Document</TabsTrigger>
+          <TabsTrigger value="chat">Chat</TabsTrigger>
+        </TabsList>
+        <TabsContent value="document">
+          <div className="bg-gray-900 p-4 rounded flex-1 h-[700px]">
+            {document.documentUrl && (
+              <iframe src={document.documentUrl} className="w-full h-full" />
+            )}
+          </div>
+        </TabsContent>
+        <TabsContent value="chat" className="bg-gray-900 rounded p-4">
           <ChatPanel documentId={documentId} />
-        </div>
-      </div>
+        </TabsContent>
+      </Tabs>
     </main>
   );
 }
