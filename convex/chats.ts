@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { mutation, query } from "./_generated/server";
+import { internalMutation, query } from "./_generated/server";
 
 export const getChatsForDocument = query({
   args: {
@@ -21,7 +21,7 @@ export const getChatsForDocument = query({
   },
 });
 
-export const createChatRecord = mutation({
+export const createChatRecord = internalMutation({
   args: {
     documentId: v.id("documents"),
     text: v.string(),
