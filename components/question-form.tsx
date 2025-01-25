@@ -46,6 +46,8 @@ export default function QuestionForm({
             <FormItem className="flex-1">
               <FormControl>
                 <Input
+                  className="disabled:opacity-50"
+                  disabled={form.formState.isSubmitting}
                   placeholder="Ask any question over this document"
                   {...field}
                 />

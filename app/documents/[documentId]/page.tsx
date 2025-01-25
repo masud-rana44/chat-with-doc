@@ -26,7 +26,7 @@ export default function DocumentIdPage() {
     );
 
   return (
-    <main className="container mx-auto py-10 space-y-8">
+    <main className="container mx-auto py-10 space-y-8 max-h-[calc(100vh-72px)]">
       <h1 className="text-4xl font-bold">{document.title}</h1>
 
       <Tabs defaultValue="document">

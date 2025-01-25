@@ -7,7 +7,7 @@ export default function Header() {
     <div className="bg-slate-900">
       <div className="container mx-auto flex items-center justify-between py-4">
         <Link href="/">
-          <h1 className="text-2xl font-medium">Big Brain</h1>
+          <h1 className="text-2xl font-medium">DocTalk AI</h1>
         </Link>
 
         <div className="flex items-center gap-4">
