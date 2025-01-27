@@ -35,7 +35,7 @@ export default function CreateNote({
         <DialogHeader>
           <DialogTitle>Create a Note</DialogTitle>
           <DialogDescription>
-            Upload a team document for you to search over the future.
+            Type what ever note you want to be searchable later on.
           </DialogDescription>
         </DialogHeader>
 

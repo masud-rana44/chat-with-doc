@@ -12,7 +12,19 @@ export const getNotes = query({
       .withIndex("by_tokenIdentifier", (q) =>
         q.eq("tokenIdentifier", userToken)
       )
+      .order("desc")
       .collect();
+  },
+});
+
+export const getNote = query({
+  args: { noteId: v.id("notes") },
+  async handler(ctx, args) {
+    const userToken = (await ctx.auth.getUserIdentity())?.tokenIdentifier;
+
+    if (!userToken) return null;
+
+    return ctx.db.get(args.noteId);
   },
 });
 
@@ -27,5 +39,16 @@ export const createNote = mutation({
       text: args.text,
       tokenIdentifier: userToken,
     });
+  },
+});
+
+export const deleteNote = mutation({
+  args: { noteId: v.id("notes") },
+  async handler(ctx, args) {
+    const userToken = (await ctx.auth.getUserIdentity())?.tokenIdentifier;
+
+    if (!userToken) return null;
+
+    return await ctx.db.delete(args.noteId);
   },
 });

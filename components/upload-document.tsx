@@ -9,6 +9,7 @@ import {
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { Upload } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 import UploadDocumentForm from "./upload-document-form";
 import { btnIconStyles, btnStyles } from "@/styles/styles";
 
@@ -37,7 +38,15 @@ export default function UploadDocument({
           </DialogDescription>
         </DialogHeader>
 
-        <UploadDocumentForm onUpload={() => setIsOpen(false)} />
+        <UploadDocumentForm
+          onUpload={() => {
+            setIsOpen(false);
+            toast({
+              title: "Document uploaded",
+              description: "The document has been uploaded successfully.",
+            });
+          }}
+        />
       </DialogContent>
     </Dialog>
   );

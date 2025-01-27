@@ -57,6 +57,7 @@ export default function UploadDocumentForm({
       title: values.title,
       storageId,
     });
+
     onUpload();
   }
 
@@ -99,10 +100,10 @@ export default function UploadDocumentForm({
         />
 
         <SubmitButton
-          submittingLabel="Submitting..."
+          submittingLabel="Uploading..."
           isSubmitting={isSubmitting}
         >
-          Submit
+          Upload
         </SubmitButton>
       </form>
     </Form>

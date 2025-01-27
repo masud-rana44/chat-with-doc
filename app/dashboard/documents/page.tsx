@@ -14,7 +14,7 @@ export default function DocumentsPage() {
   return (
     <div className="container mx-auto px-6 sm:px-0">
       <div className="flex items-center justify-between mb-20">
-        <h1 className="text-4xl font-bold">All Documents</h1>
+        <h1 className="text-4xl font-bold">My Documents</h1>
         <UploadDocument />
       </div>
 
