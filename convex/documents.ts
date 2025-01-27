@@ -3,6 +3,8 @@ import { internal } from "./_generated/api";
 import { ConvexError, v } from "convex/values";
 import {
   action,
+  internalAction,
+  internalMutation,
   internalQuery,
   mutation,
   MutationCtx,
@@ -154,11 +156,69 @@ export const createDocument = mutation({
 
     if (!userToken) throw new Error("Not authenticated");
 
-    await ctx.db.insert("documents", {
+    const documentId = await ctx.db.insert("documents", {
       title: args.title,
       storageId: args.storageId,
       tokenIdentifier: userToken,
     });
+
+    await ctx.scheduler.runAfter(
+      0,
+      internal.documents.generateDocumentDescription,
+      {
+        documentId,
+        storageId: args.storageId,
+      }
+    );
+  },
+});
+
+export const generateDocumentDescription = internalAction({
+  args: { documentId: v.id("documents"), storageId: v.id("_storage") },
+  handler: async (ctx, args) => {
+    const file = await ctx.storage.get(args.storageId);
+
+    if (!file) {
+      throw new ConvexError("File not found");
+    }
+
+    const text = await file.text();
+    const truncatedText = text.slice(0, maxTokenLength);
+
+    const chatCompletion: OpenAI.Chat.Completions.ChatCompletion =
+      await client.chat.completions.create({
+        messages: [
+          {
+            role: "system",
+            content:
+              "You area an AI Assistant specialized in analyzing text documents. Provide a short description under 100 characters based on the provided text document.",
+          },
+          {
+            role: "user",
+            content: `Here is the text document: ${truncatedText}`,
+          },
+        ],
+        model: modelName,
+        temperature: 0.3,
+        max_tokens: maxTokenLength,
+        top_p: 1,
+      });
+
+    const description =
+      chatCompletion.choices[0].message.content ??
+      "Could not figure out the description of this document.";
+
+    await ctx.runMutation(internal.documents.updateDocumentDescription, {
+      documentId: args.documentId,
+      description,
+    });
+  },
+});
+
+export const updateDocumentDescription = internalMutation({
+  args: { documentId: v.id("documents"), description: v.string() },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.documentId, { description: args.description });
   },
 });
 

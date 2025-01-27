@@ -3,7 +3,6 @@ import { Doc } from "@/convex/_generated/dataModel";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -11,6 +10,7 @@ import {
 import { Button } from "./ui/button";
 import { Eye } from "lucide-react";
 import Link from "next/link";
+import { Skeleton } from "./ui/skeleton";
 
 export default function DocumentCard({
   document,
@@ -18,13 +18,23 @@ export default function DocumentCard({
   document: Doc<"documents">;
 }) {
   return (
-    <Card>
+    <Card className="flex flex-col">
       <CardHeader>
-        <CardTitle>{document.title}</CardTitle>
-        <CardDescription></CardDescription>
+        <CardTitle className="line-clamp-1">{document.title}</CardTitle>
       </CardHeader>
-      <CardContent>
-        <p>Card Content</p>
+      <CardContent className="flex-1">
+        {document.description && (
+          <p className="text-muted-foreground line-clamp-3">
+            {document.description}
+          </p>
+        )}
+        {!document.description && (
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-1/2" />
+          </div>
+        )}
       </CardContent>
       <CardFooter>
         <Button asChild variant="secondary">
