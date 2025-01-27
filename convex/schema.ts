@@ -8,6 +8,10 @@ export default defineSchema({
     storageId: v.id("_storage"),
     tokenIdentifier: v.string(),
   }).index("by_tokenIdentifier", ["tokenIdentifier"]),
+  notes: defineTable({
+    text: v.string(),
+    tokenIdentifier: v.string(),
+  }).index("by_tokenIdentifier", ["tokenIdentifier"]),
   chats: defineTable({
     documentId: v.id("documents"),
     tokenIdentifier: v.string(),

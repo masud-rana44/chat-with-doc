@@ -11,6 +11,7 @@ import { Button } from "./ui/button";
 import { Eye } from "lucide-react";
 import Link from "next/link";
 import { Skeleton } from "./ui/skeleton";
+import { btnIconStyles } from "@/styles/styles";
 
 export default function DocumentCard({
   document,
@@ -38,8 +39,8 @@ export default function DocumentCard({
       </CardContent>
       <CardFooter>
         <Button asChild variant="secondary">
-          <Link href={`/documents/${document._id}`}>
-            <Eye className="w-4 h-4" />
+          <Link href={`/dashboard/documents/${document._id}`}>
+            <Eye className={btnIconStyles} />
             View
           </Link>
         </Button>

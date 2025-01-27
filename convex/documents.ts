@@ -229,6 +229,7 @@ export const deleteDocument = mutation({
 
     if (!accessObj) return null;
 
+    await ctx.storage.delete(accessObj.document.storageId);
     await ctx.db.delete(args.documentId);
   },
 });

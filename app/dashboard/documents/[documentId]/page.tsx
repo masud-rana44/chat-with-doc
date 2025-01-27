@@ -21,6 +21,7 @@ import ChatPanel from "@/components/chat-panel";
 import { Id } from "@/convex/_generated/dataModel";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { btnIconStyles, btnStyles } from "@/styles/styles";
 
 export default function DocumentIdPage() {
   const params = useParams();
@@ -39,7 +40,7 @@ export default function DocumentIdPage() {
 
   if (!document)
     return (
-      <div className="container mx-auto py-10">
+      <div className="container mx-auto">
         <Skeleton className="h-8 w-[600px]" />
 
         <div className="mt-10 flex items-center gap-2">
@@ -52,21 +53,21 @@ export default function DocumentIdPage() {
     );
 
   return (
-    <main className="container px-6 sm:px-0 mx-auto py-10 space-y-8 max-h-[calc(100vh-72px)]">
+    <main className="container px-6 sm:px-0 mx-auto space-y-8 max-h-[calc(100vh-172px)]">
       <div className="flex items-center justify-between">
         <h1 className="text-4xl font-bold">{document.title}</h1>
 
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button variant="destructive" className="flex items-center gap-2">
-              <Trash2 className="w-6 h-6" />
+            <Button variant="destructive" className={btnStyles}>
+              <Trash2 className={btnIconStyles} />
               <span>Delete</span>
             </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>
-                Are you sure you want to delete?
+                Are you sure you want to delete this document?
               </AlertDialogTitle>
               <AlertDialogDescription>
                 This action cannot be undone. This will permanently delete your

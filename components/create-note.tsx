@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Dialog,
   DialogContent,
@@ -7,12 +9,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useState } from "react";
+import { Plus } from "lucide-react";
 import { Button } from "./ui/button";
-import { Upload } from "lucide-react";
-import UploadDocumentForm from "./upload-document-form";
 import { btnIconStyles, btnStyles } from "@/styles/styles";
+import CreateNoteForm from "./create-note-form";
 
-export default function UploadDocument({
+export default function CreateNote({
   isEmptyState,
 }: {
   isEmptyState?: boolean;
@@ -26,18 +28,18 @@ export default function UploadDocument({
           variant={isEmptyState ? "outline" : "default"}
           className={btnStyles}
         >
-          <Upload className={btnIconStyles} /> Upload
+          <Plus className={btnIconStyles} /> Create
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Upload a Document</DialogTitle>
+          <DialogTitle>Create a Note</DialogTitle>
           <DialogDescription>
             Upload a team document for you to search over the future.
           </DialogDescription>
         </DialogHeader>
 
-        <UploadDocumentForm onUpload={() => setIsOpen(false)} />
+        <CreateNoteForm onCreate={() => setIsOpen(false)} />
       </DialogContent>
     </Dialog>
   );
