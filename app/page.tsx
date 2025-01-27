@@ -12,10 +12,9 @@ export default function Home() {
   const documents = useQuery(api.documents.getDocuments);
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto px-6 sm:px-0 ">
       <div className="py-20 flex items-center justify-between">
         <h1 className="text-4xl font-bold">My Documents</h1>
-
         <UploadDocument />
       </div>
 

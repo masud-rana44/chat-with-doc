@@ -33,6 +33,7 @@ export default function QuestionForm({
       question: values.query,
       documentId,
     });
+
     form.reset();
   }
 

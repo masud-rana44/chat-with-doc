@@ -162,6 +162,17 @@ export const createDocument = mutation({
   },
 });
 
+export const deleteDocument = mutation({
+  args: { documentId: v.id("documents") },
+  handler: async (ctx, args) => {
+    const accessObj = await hasAccessDocument(ctx, args.documentId);
+
+    if (!accessObj) return null;
+
+    await ctx.db.delete(args.documentId);
+  },
+});
+
 export const aksQuestion = action({
   args: {
     question: v.string(),

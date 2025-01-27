@@ -6,6 +6,7 @@ import QuestionForm from "./question-form";
 import { useUser } from "@clerk/clerk-react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
+import { Skeleton } from "./ui/skeleton";
 
 export default function ChatPanel({
   documentId,
@@ -40,23 +41,39 @@ export default function ChatPanel({
           {avatar(false)}
           <span>Ask any question using AI about this document:</span>
         </div>
-        {chats?.map((chat) => (
-          <div
-            key={chat._id}
-            className={cn(
-              {
-                "bg-slate-800 text-right w-fit self-end py-2 px-3":
-                  chat.isHuman,
-                "bg-slate-950 p-4": !chat.isHuman,
-              },
-              "rounded  whitespace-pre-line flex items-center gap-2"
-            )}
-          >
-            {!chat.isHuman && avatar(false)}
-            <span>{chat.text}</span>
-            {chat.isHuman && avatar(true)}
-          </div>
-        ))}
+        {/* If not chats, added loading skeleton */}
+        {!chats &&
+          Array.from({ length: 6 }).map((_, idx) => (
+            <Skeleton
+              key={idx}
+              className={cn(
+                {
+                  "bg-slate-800 self-end py-2 px-3 h-8 ": idx % 2 == 0,
+                  "bg-slate-950 p-4 h-20": idx % 2 == 1,
+                },
+                "w-2/3"
+              )}
+            />
+          ))}
+
+        {chats &&
+          chats?.map((chat) => (
+            <div
+              key={chat._id}
+              className={cn(
+                {
+                  "bg-slate-800 text-right w-fit self-end py-2 px-3":
+                    chat.isHuman,
+                  "bg-slate-950 p-4": !chat.isHuman,
+                },
+                "rounded whitespace-pre-line flex items-start gap-2"
+              )}
+            >
+              {!chat.isHuman && avatar(false)}
+              <span className="flex-1">{chat.text}</span>
+              {chat.isHuman && avatar(true)}
+            </div>
+          ))}
       </div>
 
       <QuestionForm documentId={documentId} />
