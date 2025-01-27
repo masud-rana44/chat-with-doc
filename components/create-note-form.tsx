@@ -16,12 +16,14 @@ import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import SubmitButton from "./submit-button";
 import { Textarea } from "./ui/textarea";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   text: z.string().min(2).max(2500),
 });
 
 export default function CreateNoteForm({ onCreate }: { onCreate: () => void }) {
+  const router = useRouter();
   const createNote = useMutation(api.notes.createNote);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -36,9 +38,11 @@ export default function CreateNoteForm({ onCreate }: { onCreate: () => void }) {
   } = form;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    await createNote({
+    const noteId = await createNote({
       text: values.text,
     });
+
+    router.push(`/dashboard/notes/${noteId}`);
     onCreate();
   }
 

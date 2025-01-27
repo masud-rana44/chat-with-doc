@@ -1,21 +1,29 @@
 "use client";
 
-import { api } from "@/convex/_generated/api";
-import { useQuery } from "convex/react";
 import Link from "next/link";
-import { Skeleton } from "./ui/skeleton";
-import { useParams } from "next/navigation";
-import { cn } from "@/lib/utils";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
+import { useEffect } from "react";
 import CreateNote from "./create-note";
+import { useQuery } from "convex/react";
+import { Skeleton } from "./ui/skeleton";
+import { api } from "@/convex/_generated/api";
+import { useParams, useRouter } from "next/navigation";
 
 export default function NoteList() {
   const params = useParams();
+  const router = useRouter();
   const notes = useQuery(api.notes.getNotes);
+
+  useEffect(() => {
+    if (notes && notes.length > 0 && !params.noteId) {
+      router.push(`/dashboard/notes/${notes[0]._id}`);
+    }
+  }, [notes, params.noteId, router]);
 
   if (!notes)
     return (
-      <div className="space-y-2 min-w-[280px]">
+      <div className="space-y-2 min-w-[420px]">
         <Skeleton className="h-16 w-full" />
         <Skeleton className="h-16 w-full" />
         <Skeleton className="h-16 w-full" />
@@ -41,18 +49,21 @@ export default function NoteList() {
   }
 
   return (
-    <ul className="space-y-2 w-[280px]">
+    <ul className="space-y-2 w-[420px] h-[calc(100vh-300px)] overflow-y-auto">
       {notes.map((note) => (
         <li key={note._id}>
           <Link
             href={`/dashboard/notes/${note._id}`}
-            className={cn("px-4 py-2 rounded block border line-clamp-2", {
+            className={cn("px-4 py-2 rounded block border", {
               "border-primary-foreground bg-slate-900":
                 params.noteId === note._id,
             })}
           >
-            {note.text.slice(0, 50)}
-            {note.text.length > 50 && "..."}
+            <h3 className="mb-2">{note.title}</h3>
+            <p className="text-sm text-muted-foreground line-clamp-2">
+              {note.text.slice(0, 90)}
+              {note.text.length > 90 && "..."}
+            </p>
           </Link>
         </li>
       ))}

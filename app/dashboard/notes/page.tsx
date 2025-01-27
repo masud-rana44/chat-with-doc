@@ -1,5 +1,6 @@
 "use client";
 
+import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
 
@@ -9,8 +10,8 @@ export default function NotesPage() {
   if (notes?.length === 0) return null;
 
   return (
-    <div className="container mx-auto px-6 sm:px-0">
-      <p>Please select a note.</p>
+    <div className="w-[800px]">
+      <Skeleton className="h-[600px] w-full" />
     </div>
   );
 }

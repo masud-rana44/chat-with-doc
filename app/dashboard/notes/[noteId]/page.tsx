@@ -1,12 +1,12 @@
 "use client";
 
-import DeleteNoteButton from "@/components/delete-note-button";
-import { Skeleton } from "@/components/ui/skeleton";
-import { api } from "@/convex/_generated/api";
-import { Id } from "@/convex/_generated/dataModel";
+import React from "react";
 import { useQuery } from "convex/react";
 import { useParams } from "next/navigation";
-import React from "react";
+import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
+import { Skeleton } from "@/components/ui/skeleton";
+import DeleteNoteButton from "@/components/delete-note-button";
 
 export default function NoteIdPage() {
   const params = useParams();
@@ -22,10 +22,17 @@ export default function NoteIdPage() {
     );
 
   return (
-    <div className="w-[800px] flex flex-col p-4 border space-y-2 rounded bg-slate-900">
-      <DeleteNoteButton noteId={noteId} />
+    <div className="w-[800px] h-[calc(100vh-300px)] flex flex-col p-4 border space-y-8 rounded bg-slate-950">
+      <div className="flex items-center justify-between">
+        {note.title ? (
+          <h2 className="text-2xl">{note.title}</h2>
+        ) : (
+          <Skeleton className="h-12 w-full" />
+        )}
+        <DeleteNoteButton noteId={noteId} />
+      </div>
 
-      <p className=" whitespace-pre-line">{note?.text}</p>
+      <p className="whitespace-pre-line overflow-y-auto">{note?.text}</p>
     </div>
   );
 }

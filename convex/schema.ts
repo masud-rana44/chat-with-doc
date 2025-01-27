@@ -9,6 +9,7 @@ export default defineSchema({
     tokenIdentifier: v.string(),
   }).index("by_tokenIdentifier", ["tokenIdentifier"]),
   notes: defineTable({
+    title: v.optional(v.string()),
     text: v.string(),
     tokenIdentifier: v.string(),
   }).index("by_tokenIdentifier", ["tokenIdentifier"]),
