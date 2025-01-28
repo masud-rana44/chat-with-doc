@@ -20,8 +20,8 @@ export default function DocumentIdPage() {
 
   if (!document)
     return (
-      <div className="container mx-auto">
-        <Skeleton className="h-8 w-[600px]" />
+      <>
+        <Skeleton className="h-8 max-w-[600px]" />
 
         <div className="mt-10 flex items-center gap-2">
           <Skeleton className="h-8 w-20" />
@@ -29,13 +29,13 @@ export default function DocumentIdPage() {
         </div>
 
         <Skeleton className="mt-2 h-screen max-h-[calc(100vh-272px)] max-w-[1000px]" />
-      </div>
+      </>
     );
 
   return (
-    <main className="container px-6 sm:px-0 mx-auto space-y-8 max-h-[calc(100vh-172px)]">
-      <div className="flex items-center justify-between">
-        <h1 className="text-4xl font-bold">{document.title}</h1>
+    <div className="space-y-8 max-h-[calc(100vh-172px)]">
+      <div className="flex items-center justify-between space-x-4">
+        <h1 className="text-3xl font-bold">{document.title}</h1>
         <DeleteDocumentButton documentId={documentId} />
       </div>
 
@@ -45,7 +45,7 @@ export default function DocumentIdPage() {
           <TabsTrigger value="chat">Chat</TabsTrigger>
         </TabsList>
         <TabsContent value="document">
-          <div className="bg-gray-900 p-4 rounded flex-1 h-[700px]">
+          <div className="bg-gray-900 p-4 rounded flex-1 h-[calc(100vh-274px)]">
             {document.documentUrl && (
               <iframe src={document.documentUrl} className="w-full h-full" />
             )}
@@ -58,6 +58,6 @@ export default function DocumentIdPage() {
           <ChatPanel documentId={documentId} />
         </TabsContent>
       </Tabs>
-    </main>
+    </div>
   );
 }

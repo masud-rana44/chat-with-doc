@@ -24,10 +24,12 @@ export default function NoteList() {
   if (!notes)
     return (
       <div className="space-y-2 min-w-[420px]">
-        <Skeleton className="h-16 w-full" />
-        <Skeleton className="h-16 w-full" />
-        <Skeleton className="h-16 w-full" />
-        <Skeleton className="h-16 w-full" />
+        <Skeleton className="h-20 w-full" />
+        <Skeleton className="h-20 w-full" />
+        <Skeleton className="h-20 w-full" />
+        <Skeleton className="h-20 w-full" />
+        <Skeleton className="h-20 w-full" />
+        <Skeleton className="h-20 w-full" />
       </div>
     );
 
@@ -49,7 +51,7 @@ export default function NoteList() {
   }
 
   return (
-    <ul className="space-y-3 w-[420px] h-[calc(100vh-300px)] overflow-y-auto">
+    <ul className="space-y-3 max-w-[420px] h-[calc(100vh-240px)] overflow-y-auto">
       {notes.map((note) => (
         <li key={note._id}>
           <Link

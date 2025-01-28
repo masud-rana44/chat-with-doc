@@ -37,9 +37,11 @@ export default function ChatPanel({
   return (
     <div className="h-full flex flex-col gap-4">
       <div className="flex-1 overflow-y-auto flex flex-col space-y-3">
-        <div className="bg-slate-900 rounded p-3 flex items-center gap-3">
-          {avatar(false)}
-          <span>Ask any question using AI about this document:</span>
+        <div className="bg-slate-900 p-3 flex gap-3">
+          <span>{avatar(false)}</span>
+          <p className="flex-1">
+            Ask any question using AI about this document:
+          </p>
         </div>
         {/* If not chats, added loading skeleton */}
         {!chats &&

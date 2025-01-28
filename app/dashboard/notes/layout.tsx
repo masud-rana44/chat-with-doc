@@ -6,13 +6,13 @@ export default function NotesLayout({ children }: { children: ReactNode }) {
   return (
     <div>
       <div className="flex items-center justify-between mb-12">
-        <h1 className="text-4xl font-bold">My Notes</h1>
+        <h1 className="text-3xl font-bold">My Notes</h1>
         <CreateNote />
       </div>
 
-      <div className="flex gap-20">
+      <div className="flex gap-4 lg:gap-6 xl:gap-10 2xl:gap-16">
         <NoteList />
-        <div>{children}</div>
+        {children}
       </div>
     </div>
   );

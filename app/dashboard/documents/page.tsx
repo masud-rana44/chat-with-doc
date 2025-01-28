@@ -12,15 +12,15 @@ export default function DocumentsPage() {
   const documents = useQuery(api.documents.getDocuments);
 
   return (
-    <div className="container mx-auto px-6 sm:px-0">
+    <div>
       <div className="flex items-center justify-between mb-20">
-        <h1 className="text-4xl font-bold">My Documents</h1>
+        <h1 className="text-3xl font-bold">My Documents</h1>
         <UploadDocument />
       </div>
 
       {/* Loader Skeleton */}
       {!documents && (
-        <div className="grid grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-8">
           {new Array(8).fill("").map((_, idx) => (
             <Card
               key={idx}
@@ -52,7 +52,7 @@ export default function DocumentsPage() {
       )}
 
       {documents && documents.length >= 0 && (
-        <div className="grid grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-8">
           {documents?.map((doc) => (
             <DocumentCard key={doc._id} document={doc} />
           ))}

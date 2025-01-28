@@ -208,7 +208,7 @@ export const generateDocumentDescriptionAndEmbedding = internalAction({
     const description =
       chatCompletion.choices[0].message.content ??
       "Could not figure out the description of this document.";
-    const embedding = await embedText(text);
+    const embedding = await embedText(text.slice(0, maxTokenLength));
 
     await ctx.runMutation(
       internal.documents.updateDocumentDescriptionAndEmbedding,

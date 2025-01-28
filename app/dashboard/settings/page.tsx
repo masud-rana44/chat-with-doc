@@ -1,5 +1,9 @@
 import React from "react";
 
 export default function SettingsPage() {
-  return <div>SettingsPage</div>;
+  return (
+    <div>
+      <h1 className="text-3xl font-bold">Settings</h1>
+    </div>
+  );
 }

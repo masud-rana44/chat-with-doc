@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Doc } from "@/convex/_generated/dataModel";
 import {
   Card,
@@ -10,18 +10,26 @@ import {
 import { Button } from "./ui/button";
 import { Eye } from "lucide-react";
 import Link from "next/link";
-import { Skeleton } from "./ui/skeleton";
 import { btnIconStyles } from "@/styles/styles";
+import { Skeleton } from "./ui/skeleton";
 
 export default function DocumentCard({
   document,
 }: {
   document: Doc<"documents">;
 }) {
+  const [isGeneratingDesc, setIsGeneratingDesc] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsGeneratingDesc(false);
+    }, 5000);
+  }, []);
+
   return (
     <Card className="flex flex-col">
       <CardHeader>
-        <CardTitle className="line-clamp-1">{document.title}</CardTitle>
+        <CardTitle className="line-clamp-1 text-xl">{document.title}</CardTitle>
       </CardHeader>
       <CardContent className="flex-1">
         {document.description && (
@@ -29,13 +37,18 @@ export default function DocumentCard({
             {document.description}
           </p>
         )}
-        {!document.description && (
-          <div className="space-y-2">
-            <Skeleton className="h-4 w-full" />
-            <Skeleton className="h-4 w-full" />
-            <Skeleton className="h-4 w-1/2" />
-          </div>
-        )}
+        {!document.description &&
+          (isGeneratingDesc ? (
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-1/2" />
+            </div>
+          ) : (
+            <p className="text-muted-foreground">
+              Something went wrong. Description could not be generated.
+            </p>
+          ))}
       </CardContent>
       <CardFooter>
         <Button asChild variant="secondary">

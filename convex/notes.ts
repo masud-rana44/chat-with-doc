@@ -120,7 +120,7 @@ export const generateNoteTitleAndEmbedding = internalAction({
       });
 
     const title = chatCompletion.choices[0].message.content ?? "Untitled";
-    const embedding = await embedText(note.text);
+    const embedding = await embedText(note.text.slice(0, maxTokenLength));
 
     await ctx.runMutation(internal.notes.updateNoteTitleAndEmbedding, {
       noteId: args.noteId,

@@ -13,6 +13,7 @@ import { Plus } from "lucide-react";
 import { Button } from "./ui/button";
 import { btnIconStyles, btnStyles } from "@/styles/styles";
 import CreateNoteForm from "./create-note-form";
+import { toast } from "@/hooks/use-toast";
 
 export default function CreateNote({
   isEmptyState,
@@ -39,7 +40,15 @@ export default function CreateNote({
           </DialogDescription>
         </DialogHeader>
 
-        <CreateNoteForm onCreate={() => setIsOpen(false)} />
+        <CreateNoteForm
+          onCreate={() => {
+            setIsOpen(false);
+            toast({
+              title: "Note Created",
+              description: "This note has been created successfully.",
+            });
+          }}
+        />
       </DialogContent>
     </Dialog>
   );

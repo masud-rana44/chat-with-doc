@@ -63,12 +63,14 @@ function SearchResult({
     <Link href={url}>
       <li className="border rounded p-4 whitespace-pre-line cursor-pointer hover:bg-slate-900">
         <div className="flex items-center justify-between space-x-4">
-          <div className="flex items-center space-x-2">
-            {type === "note" ? (
-              <NotebookPen className="h-5 w-5" />
-            ) : (
-              <FileIcon className="h-5 w-5" />
-            )}
+          <div className="flex space-x-2">
+            <div>
+              {type === "note" ? (
+                <NotebookPen className="h-5 w-5" />
+              ) : (
+                <FileIcon className="h-5 w-5" />
+              )}
+            </div>
             <h4>{title || "Untitled"}</h4>
           </div>
           <p className="text-sm text-muted-foreground">
