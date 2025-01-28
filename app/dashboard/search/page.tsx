@@ -9,7 +9,7 @@ import { FileIcon, NotebookPen } from "lucide-react";
 export default function SearchPage() {
   const [results, setResults] = useState<
     typeof api.search.searchAction._returnType
-  >([]);
+  >(() => JSON.parse(localStorage.getItem("results") || "[]"));
 
   return (
     <div>

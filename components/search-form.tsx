@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { z } from "zod";
 import React from "react";
 import { Input } from "./ui/input";
@@ -15,6 +9,7 @@ import { useForm } from "react-hook-form";
 import SubmitButton from "./submit-button";
 import { api } from "@/convex/_generated/api";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
   query: z.string().min(2).max(250),
@@ -40,7 +35,7 @@ export default function SearchForm({
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const results = await searchAction({ query: values.query });
-    console.log({ results });
+    localStorage.setItem("results", JSON.stringify(results));
     setResults(results);
   }
 
@@ -58,10 +53,12 @@ export default function SearchForm({
               <FormControl>
                 <Input
                   placeholder="Search over all your notes and documents using vector searching"
+                  className={cn({
+                    "border-red-800": form.formState.errors.query,
+                  })}
                   {...field}
                 />
               </FormControl>
-              <FormMessage />
             </FormItem>
           )}
         />
