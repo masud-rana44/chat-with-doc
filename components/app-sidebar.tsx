@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { File, NotebookPen, Settings } from "lucide-react";
+import { File, NotebookPen, Search, Settings } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -10,6 +10,7 @@ export default function AppSidebar() {
   const pathname = usePathname();
 
   const links = [
+    { name: "Search", href: "/dashboard/search", icon: Search },
     { name: "Documents", href: "/dashboard/documents", icon: File },
     { name: "Notes", href: "/dashboard/notes", icon: NotebookPen },
     { name: "Settings", href: "/dashboard/settings", icon: Settings },

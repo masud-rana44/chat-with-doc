@@ -23,11 +23,11 @@ export default function NoteIdPage() {
 
   return (
     <div className="w-[800px] h-[calc(100vh-300px)] flex flex-col p-4 border space-y-8 rounded bg-slate-950">
-      <div className="flex items-center justify-between">
+      <div className="flex justify-between gap-10">
         {note.title ? (
           <h2 className="text-2xl">{note.title}</h2>
         ) : (
-          <Skeleton className="h-12 w-full" />
+          <Skeleton className="h-9 w-full" />
         )}
         <DeleteNoteButton noteId={noteId} />
       </div>

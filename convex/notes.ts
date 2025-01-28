@@ -19,6 +19,15 @@ const client = new OpenAI({
   apiKey: token,
 });
 
+export async function embedText(text: string) {
+  const embeddings = await client.embeddings.create({
+    model: "text-embedding-3-small",
+    input: text,
+  });
+
+  return embeddings.data[0].embedding;
+}
+
 export const getNotes = query({
   async handler(ctx) {
     const userToken = (await ctx.auth.getUserIdentity())?.tokenIdentifier;
@@ -40,9 +49,15 @@ export const getNote = query({
   async handler(ctx, args) {
     const userToken = (await ctx.auth.getUserIdentity())?.tokenIdentifier;
 
-    if (!userToken) return null;
+    if (!userToken) {
+      throw new ConvexError("You must be logged in to get a note");
+    }
 
-    return await ctx.db.get(args.noteId);
+    const note = await ctx.db.get(args.noteId);
+
+    if (!note || note.tokenIdentifier !== userToken) return null;
+
+    return note;
   },
 });
 
@@ -51,22 +66,28 @@ export const createNote = mutation({
   async handler(ctx, args) {
     const userToken = (await ctx.auth.getUserIdentity())?.tokenIdentifier;
 
-    if (!userToken) throw new Error("Not authenticated");
+    if (!userToken) {
+      throw new ConvexError("You must be logged in to create a note");
+    }
 
     const noteId = await ctx.db.insert("notes", {
       text: args.text,
       tokenIdentifier: userToken,
     });
 
-    await ctx.scheduler.runAfter(0, internal.notes.generateNoteTitle, {
-      noteId,
-    });
+    await ctx.scheduler.runAfter(
+      0,
+      internal.notes.generateNoteTitleAndEmbedding,
+      {
+        noteId,
+      }
+    );
 
     return noteId;
   },
 });
 
-export const generateNoteTitle = internalAction({
+export const generateNoteTitleAndEmbedding = internalAction({
   args: { noteId: v.id("notes") },
   async handler(ctx, args) {
     const note = await ctx.runQuery(internal.notes.getNoteInternal, {
@@ -99,18 +120,27 @@ export const generateNoteTitle = internalAction({
       });
 
     const title = chatCompletion.choices[0].message.content ?? "Untitled";
+    const embedding = await embedText(note.text);
 
-    await ctx.runMutation(internal.notes.updateNoteTitle, {
+    await ctx.runMutation(internal.notes.updateNoteTitleAndEmbedding, {
       noteId: args.noteId,
       title: title.replace(/"/g, ""),
+      embedding,
     });
   },
 });
 
-export const updateNoteTitle = internalMutation({
-  args: { noteId: v.id("notes"), title: v.string() },
+export const updateNoteTitleAndEmbedding = internalMutation({
+  args: {
+    noteId: v.id("notes"),
+    title: v.string(),
+    embedding: v.array(v.float64()),
+  },
   async handler(ctx, args) {
-    await ctx.db.patch(args.noteId, { title: args.title });
+    await ctx.db.patch(args.noteId, {
+      title: args.title,
+      embedding: args.embedding,
+    });
   },
 });
 
@@ -126,8 +156,16 @@ export const deleteNote = mutation({
   async handler(ctx, args) {
     const userToken = (await ctx.auth.getUserIdentity())?.tokenIdentifier;
 
-    if (!userToken) return null;
+    if (!userToken) {
+      throw new ConvexError("You must be logged in to delete a note.");
+    }
 
-    return await ctx.db.delete(args.noteId);
+    const note = await ctx.db.get(args.noteId);
+
+    if (!note || note.tokenIdentifier !== userToken) {
+      throw new ConvexError("You don't have permission to delete this node.");
+    }
+
+    await ctx.db.delete(args.noteId);
   },
 });

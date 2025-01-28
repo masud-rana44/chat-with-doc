@@ -17,6 +17,7 @@ import {
 // import pptxParser from "pptx-parser";
 // import { fileTypeFromBuffer } from "file-type";
 import { Id } from "./_generated/dataModel";
+import { embedText } from "./notes";
 
 const modelName = "gpt-4o";
 const token = process.env.GITHUB_TOKEN;
@@ -164,7 +165,7 @@ export const createDocument = mutation({
 
     await ctx.scheduler.runAfter(
       0,
-      internal.documents.generateDocumentDescription,
+      internal.documents.generateDocumentDescriptionAndEmbedding,
       {
         documentId,
         storageId: args.storageId,
@@ -173,7 +174,7 @@ export const createDocument = mutation({
   },
 });
 
-export const generateDocumentDescription = internalAction({
+export const generateDocumentDescriptionAndEmbedding = internalAction({
   args: { documentId: v.id("documents"), storageId: v.id("_storage") },
   handler: async (ctx, args) => {
     const file = await ctx.storage.get(args.storageId);
@@ -207,18 +208,30 @@ export const generateDocumentDescription = internalAction({
     const description =
       chatCompletion.choices[0].message.content ??
       "Could not figure out the description of this document.";
+    const embedding = await embedText(text);
 
-    await ctx.runMutation(internal.documents.updateDocumentDescription, {
-      documentId: args.documentId,
-      description,
-    });
+    await ctx.runMutation(
+      internal.documents.updateDocumentDescriptionAndEmbedding,
+      {
+        documentId: args.documentId,
+        description,
+        embedding,
+      }
+    );
   },
 });
 
-export const updateDocumentDescription = internalMutation({
-  args: { documentId: v.id("documents"), description: v.string() },
+export const updateDocumentDescriptionAndEmbedding = internalMutation({
+  args: {
+    documentId: v.id("documents"),
+    description: v.string(),
+    embedding: v.array(v.float64()),
+  },
   handler: async (ctx, args) => {
-    await ctx.db.patch(args.documentId, { description: args.description });
+    await ctx.db.patch(args.documentId, {
+      description: args.description,
+      embedding: args.embedding,
+    });
   },
 });
 
