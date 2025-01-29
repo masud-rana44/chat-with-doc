@@ -71,7 +71,7 @@ export const createNote = mutation({
     }
 
     const noteId = await ctx.db.insert("notes", {
-      text: args.text,
+      text: args.text.slice(0, 10000),
       tokenIdentifier: userToken,
     });
 
@@ -84,6 +84,35 @@ export const createNote = mutation({
     );
 
     return noteId;
+  },
+});
+
+export const updateNote = mutation({
+  args: { noteId: v.id("notes"), text: v.string() },
+  async handler(ctx, args) {
+    const userToken = (await ctx.auth.getUserIdentity())?.tokenIdentifier;
+
+    if (!userToken) {
+      throw new ConvexError("You must be logged in to update a note");
+    }
+
+    const note = await ctx.db.get(args.noteId);
+
+    if (!note || note.tokenIdentifier !== userToken) {
+      throw new ConvexError("You have not access to this note");
+    }
+
+    await ctx.db.patch(note._id, {
+      text: args.text.slice(0, 10000),
+    });
+
+    await ctx.scheduler.runAfter(
+      0,
+      internal.notes.generateNoteTitleAndEmbedding,
+      {
+        noteId: note._id,
+      }
+    );
   },
 });
 
