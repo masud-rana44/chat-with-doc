@@ -56,10 +56,13 @@ export default function NoteList() {
         <li key={note._id}>
           <Link
             href={`/dashboard/notes/${note._id}`}
-            className={cn("px-4 py-2 rounded block border", {
-              "border-primary-foreground bg-slate-900":
-                params.noteId === note._id,
-            })}
+            className={cn(
+              "px-4 py-2 rounded block border  hover:bg-slate-100 dark:hover:bg-slate-900",
+              {
+                "border-primary-foreground bg-slate-100 dark:bg-slate-900":
+                  params.noteId === note._id,
+              }
+            )}
           >
             <h3 className="mb-2">{note.title}</h3>
             <p className="text-sm text-muted-foreground line-clamp-2">

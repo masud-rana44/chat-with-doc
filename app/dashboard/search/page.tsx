@@ -9,7 +9,9 @@ import { FileIcon, NotebookPen } from "lucide-react";
 export default function SearchPage() {
   const [results, setResults] = useState<
     typeof api.search.searchAction._returnType
-  >(() => JSON.parse(localStorage.getItem("results") || "[]"));
+  >(() =>
+    JSON.parse((localStorage && localStorage.getItem("results")) || "[]")
+  );
 
   return (
     <div>
@@ -61,7 +63,7 @@ function SearchResult({
 }) {
   return (
     <Link href={url}>
-      <li className="border rounded p-4 whitespace-pre-line cursor-pointer hover:bg-slate-900">
+      <li className="border rounded p-4 whitespace-pre-line cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-900">
         <div className="flex items-center justify-between space-x-4">
           <div className="flex space-x-2">
             <div>

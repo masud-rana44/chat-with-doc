@@ -12,8 +12,8 @@ export default function Header() {
   const { onOpen } = useSidebar();
 
   return (
-    <div className="bg-slate-900">
-      <div className="container px-6 sm:px-0 mx-auto flex items-center justify-between py-4">
+    <div className="bg-slate-100 dark:bg-slate-900">
+      <div className="px-6 sm:px-10 mx-auto flex items-center justify-between py-4">
         <div className="flex items-center space-x-2">
           <Button className="lg:hidden" variant="outline" onClick={onOpen}>
             <Menu />
@@ -26,7 +26,7 @@ export default function Header() {
               width={36}
               alt="Logo of DocuChat AI"
             />
-            <h1 className="text-2xl font-medium">DocuChat.AI</h1>
+            <h1 className="text-2xl font-medium">DocuChat</h1>
           </Link>
         </div>
 

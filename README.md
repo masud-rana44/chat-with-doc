@@ -30,12 +30,12 @@ This application provides a simple and efficient way to manage your documents an
 
 6. **Searching:** Use the search bar to find documents or notes. Try different keywords to explore the search capabilities.
 
-## Technical Information (Optional - Include if relevant)
+<!-- ## Technical Information (Optional - Include if relevant)
 
 - **Technologies Used:** (List the core technologies, e.g., Python, JavaScript, React, etc. Keep it simple.)
 - **API Documentation:** (Link to API docs if applicable)
-- **Deployment Instructions:** (If this README is for developers, include instructions on how to set up the project locally.)
+- **Deployment Instructions:** (If this README is for developers, include instructions on how to set up the project locally.) -->
 
-## Support
+<!-- ## Support
 
-For support or bug reports, please contact us at [your support email address].
+For support or bug reports, please contact us at [your support email address]. -->

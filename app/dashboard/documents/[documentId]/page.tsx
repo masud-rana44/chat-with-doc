@@ -45,7 +45,7 @@ export default function DocumentIdPage() {
           <TabsTrigger value="chat">Chat</TabsTrigger>
         </TabsList>
         <TabsContent value="document">
-          <div className="bg-gray-900 p-4 rounded flex-1 h-[calc(100vh-274px)]">
+          <div className="bg-slate-100 dark:bg-slate-900 p-4 rounded flex-1 h-[calc(100vh-274px)]">
             {document.documentUrl && (
               <iframe src={document.documentUrl} className="w-full h-full" />
             )}
@@ -53,7 +53,7 @@ export default function DocumentIdPage() {
         </TabsContent>
         <TabsContent
           value="chat"
-          className="bg-gray-900 rounded p-4 h-[calc(100vh-274px)]"
+          className="bg-slate-100 dark:bg-slate-900 rounded p-4 h-[calc(100vh-274px)]"
         >
           <ChatPanel documentId={documentId} />
         </TabsContent>

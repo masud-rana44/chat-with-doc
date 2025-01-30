@@ -23,7 +23,7 @@ export default function AppSidebar() {
     <nav
       className={cn(
         { "-translate-x-full": !isOpen, "translate-x-0": isOpen },
-        "fixed top-0 h-screen bg-slate-950 transition duration-300 w-[260px] px-4 py-20 lg:py-10 lg:relative lg:h-[calc(100vh-72px)] lg:translate-x-0 z-10"
+        "fixed top-0 h-screen bg-slate-50 dark:bg-slate-950 transition duration-300 w-[260px] px-4 py-20 lg:py-10 lg:relative lg:h-[calc(100vh-72px)] lg:translate-x-0 z-10"
       )}
     >
       <Button
@@ -41,8 +41,8 @@ export default function AppSidebar() {
               key={name}
               href={href}
               className={cn(
-                pathname.includes(href) && "bg-slate-900",
-                "flex items-center gap-2 px-6 py-2 hover:bg-slate-900 rounded"
+                pathname.includes(href) && "bg-slate-200 dark:bg-slate-900",
+                "flex items-center gap-2 px-6 py-2 hover:bg-slate-100 dark:hover:bg-slate-900 rounded"
               )}
             >
               <Icon className="h-6 w-6" />
