@@ -35,7 +35,7 @@ export default function DocumentIdPage() {
   return (
     <div className="space-y-8 max-h-[calc(100vh-172px)]">
       <div className="flex items-center justify-between space-x-4">
-        <h1 className="text-3xl font-bold">{document.title}</h1>
+        <h1 className="text-3xl font-bold line-clamp-2">{document.title}</h1>
         <DeleteDocumentButton documentId={documentId} />
       </div>
 

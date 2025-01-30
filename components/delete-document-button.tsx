@@ -48,7 +48,7 @@ export default function DeleteDocumentButton({
       <AlertDialogTrigger asChild>
         <Button variant="destructive" className={btnStyles}>
           <Trash2 className={btnIconStyles} />
-          <span>Delete</span>
+          <span className="hidden lg:block">Delete</span>
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>

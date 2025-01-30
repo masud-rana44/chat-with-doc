@@ -71,14 +71,14 @@ function SearchResult({
                 <FileIcon className="h-5 w-5" />
               )}
             </div>
-            <h4>{title || "Untitled"}</h4>
+            <h4 className="line-clamp-2">{title || "Untitled"}</h4>
           </div>
           <p className="text-sm text-muted-foreground">
-            Relevancy {score.toFixed(2)}
+            Relevancy of {score.toFixed(2)}
           </p>
         </div>
 
-        <p className="text-muted-foreground mt-4 text-sm">
+        <p className="text-muted-foreground mt-4 text-sm line-clamp-3">
           {text?.slice(0, 400)}
           {text && text.length > 400 ? "..." : ""}
         </p>

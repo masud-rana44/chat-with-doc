@@ -18,13 +18,13 @@ export default function NoteIdPage() {
   if (!note)
     return (
       <div className="flex-1 max-w-[800px]">
-        <Skeleton className="h-[calc(100vh-240px)] w-full" />
+        <Skeleton className="h-[calc(100vh-200px)] lg:h-[calc(100vh-240px)] w-full" />
       </div>
     );
 
   return (
-    <div className="flex-1 max-w-[800px] h-[calc(100vh-240px)] flex flex-col p-4 border space-y-8 rounded bg-slate-950">
-      <div className="flex items-baseline justify-between gap-10">
+    <div className="flex-1 max-w-[800px] sm:h-[calc(100vh-200px)] lg:h-[calc(100vh-240px)] flex flex-col p-4 border space-y-8 rounded bg-slate-950">
+      <div className="flex items-baseline justify-between flex-wrap gap-4">
         {note.title ? (
           <h2 className="text-2xl">{note.title}</h2>
         ) : (

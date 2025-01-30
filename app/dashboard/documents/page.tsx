@@ -13,51 +13,53 @@ export default function DocumentsPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-20">
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-10 lg:mb-20">
         <h1 className="text-3xl font-bold">My Documents</h1>
         <UploadDocument />
       </div>
 
-      {/* Loader Skeleton */}
-      {!documents && (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-8">
-          {new Array(8).fill("").map((_, idx) => (
-            <Card
-              key={idx}
-              className="h-[200px] p-6 flex flex-col justify-between"
-            >
-              <Skeleton className="h-[20px] rounded" />
-              <Skeleton className="h-[20px] rounded" />
-              <Skeleton className="h-[20px] rounded" />
-              <Skeleton className="w-[80px] h-[40px] rounded" />
-            </Card>
-          ))}
-        </div>
-      )}
+      <div className="h-[calc(100vh-280px)] overflow-y-auto">
+        {/* Loader Skeleton */}
+        {!documents && (
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-8">
+            {new Array(8).fill("").map((_, idx) => (
+              <Card
+                key={idx}
+                className="h-[200px] p-6 flex flex-col justify-between"
+              >
+                <Skeleton className="h-[20px] rounded" />
+                <Skeleton className="h-[20px] rounded" />
+                <Skeleton className="h-[20px] rounded" />
+                <Skeleton className="w-[80px] h-[40px] rounded" />
+              </Card>
+            ))}
+          </div>
+        )}
 
-      {/* Empty State */}
-      {documents && documents.length === 0 && (
-        <div className="py-12 flex flex-col justify-center items-center gap-8">
-          <Image
-            src="/documents.svg"
-            width="200"
-            height="200"
-            alt="a picture of a girl holding documents"
-          />
-          <h2 className="text-2xl text-muted-foreground">
-            You have no documents
-          </h2>
-          <UploadDocument isEmptyState />
-        </div>
-      )}
+        {/* Empty State */}
+        {documents && documents.length === 0 && (
+          <div className="py-12 flex flex-col justify-center items-center gap-8">
+            <Image
+              src="/documents.svg"
+              width="200"
+              height="200"
+              alt="a picture of a girl holding documents"
+            />
+            <h2 className="text-2xl text-muted-foreground">
+              You have no documents
+            </h2>
+            <UploadDocument isEmptyState />
+          </div>
+        )}
 
-      {documents && documents.length >= 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-8">
-          {documents?.map((doc) => (
-            <DocumentCard key={doc._id} document={doc} />
-          ))}
-        </div>
-      )}
+        {documents && documents.length >= 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-8">
+            {documents?.map((doc) => (
+              <DocumentCard key={doc._id} document={doc} />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
