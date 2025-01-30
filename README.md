@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Intelligent Document and Note Management System
+
+This application provides a simple and efficient way to manage your documents and notes using AI. It combines document storage, AI-powered summarization, chat functionality, note-taking features, and powerful search capabilities in one place.
+
+## Features
+
+- **Document Upload and Management:** Upload, delete, and organize your documents in various formats. You have full control over your document library.
+
+- **Document Summarization:** The system uses AI to generate short, concise summaries of your documents, saving you time.
+
+- **Document Chat:** Interact with your documents through a chat interface. Ask questions and get information directly from the document content. Chat history is saved for your reference.
+
+- **Note Creation and Management:** Create, edit, and delete notes. An AI assistant can suggest titles for your notes.
+
+- **Comprehensive Search:** Easily search across all your documents and notes using keywords. The system uses vector search technology to find relevant information, even if the exact words aren't present.
+
+- **Secure Authentication:** User accounts are protected with secure authentication. Your data is kept private.
 
 ## Getting Started
 
-First, run the development server:
+1. **Account Creation:** Create an account to access the system.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+2. **Document Upload:** Upload your documents to the system. Supported file types will be listed in the application.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. **Note Creation:** Create new notes as needed.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+4. **Using the AI Features:** The AI summarization and title generation features are automatically available after uploading a document or creating a note.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+5. **Chatting with Documents:** Select a document and begin chatting to ask questions or get information.
 
-## Learn More
+6. **Searching:** Use the search bar to find documents or notes. Try different keywords to explore the search capabilities.
 
-To learn more about Next.js, take a look at the following resources:
+## Technical Information (Optional - Include if relevant)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Technologies Used:** (List the core technologies, e.g., Python, JavaScript, React, etc. Keep it simple.)
+- **API Documentation:** (Link to API docs if applicable)
+- **Deployment Instructions:** (If this README is for developers, include instructions on how to set up the project locally.)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Support
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+For support or bug reports, please contact us at [your support email address].

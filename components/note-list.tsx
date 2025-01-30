@@ -23,7 +23,7 @@ export default function NoteList() {
 
   if (!notes)
     return (
-      <div className="flex-1 space-y-2">
+      <div className="flex-1 2xl:max-w-md space-y-2">
         <Skeleton className="h-20 w-full" />
         <Skeleton className="h-20 w-full" />
         <Skeleton className="h-20 w-full" />
@@ -51,7 +51,7 @@ export default function NoteList() {
   }
 
   return (
-    <ul className="flex-1 space-y-3 inline-table sm:block sm:h-[calc(100vh-200px)] lg:h-[calc(100vh-240px)] overflow-y-auto">
+    <ul className="flex-1 space-y-3 inline-table sm:block sm:h-[calc(100vh-200px)] lg:h-[calc(100vh-240px)] 2xl:max-w-md overflow-y-auto">
       {notes.map((note) => (
         <li key={note._id}>
           <Link

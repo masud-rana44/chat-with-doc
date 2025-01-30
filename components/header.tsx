@@ -6,6 +6,7 @@ import { ModeToggle } from "./mode-toggle";
 import { useSidebar } from "./sidebar-context";
 import { Button } from "./ui/button";
 import { Menu } from "lucide-react";
+import Image from "next/image";
 
 export default function Header() {
   const { onOpen } = useSidebar();
@@ -18,8 +19,14 @@ export default function Header() {
             <Menu />
           </Button>
 
-          <Link href="/">
-            <h1 className="text-2xl font-medium">DocTalk AI</h1>
+          <Link href="/" className="flex items-center space-x-2">
+            <Image
+              src="/logo.svg"
+              height={36}
+              width={36}
+              alt="Logo of DocuChat AI"
+            />
+            <h1 className="text-2xl font-medium">DocuChat.AI</h1>
           </Link>
         </div>
 
