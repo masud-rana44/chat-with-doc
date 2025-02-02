@@ -9,7 +9,7 @@ export default function HeaderActions() {
   return (
     <>
       <Unauthenticated>
-        <SignInButton />
+        <SignInButton fallbackRedirectUrl="/dashboard" />
       </Unauthenticated>
 
       <Authenticated>

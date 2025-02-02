@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import SubmitButton from "./submit-button";
+import FileDropzone from "./file-dropzone";
 
 const formSchema = z.object({
   title: z.string().min(2).max(250),
@@ -81,19 +82,11 @@ export default function UploadDocumentForm({
         <FormField
           name="file"
           control={form.control}
-          render={({ field: { onChange, ref } }) => (
+          render={({ field: { onChange, value } }) => (
             <FormItem>
               <FormLabel>File</FormLabel>
               <FormControl>
-                <Input
-                  type="file"
-                  accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt"
-                  ref={ref}
-                  onChange={(event) => {
-                    const file = event.target.files?.[0];
-                    onChange(file);
-                  }}
-                />
+                <FileDropzone onChange={onChange} file={value} />
               </FormControl>
             </FormItem>
           )}
