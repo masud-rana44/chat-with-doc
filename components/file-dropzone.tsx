@@ -10,7 +10,7 @@ export default function FileDropzone({
   file: File | null;
 }) {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    accept: { "application/pdf": [".pdf"] },
+    accept: { "text/plane": [".txt"] },
     maxFiles: 1,
     onDrop: (acceptedFiles) => {
       const file = acceptedFiles[0];

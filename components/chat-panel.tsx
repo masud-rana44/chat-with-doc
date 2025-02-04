@@ -1,13 +1,17 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { useQuery } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import QuestionForm from "./question-form";
 import { useUser } from "@clerk/clerk-react";
 import { api } from "@/convex/_generated/api";
-import { Id } from "@/convex/_generated/dataModel";
+import { Doc, Id } from "@/convex/_generated/dataModel";
 import { Skeleton } from "./ui/skeleton";
 import Markdown from "react-markdown";
+import { Button } from "./ui/button";
+import { Check, Copy } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 export default function ChatPanel({
   documentId,
@@ -15,7 +19,12 @@ export default function ChatPanel({
   documentId: Id<"documents">;
 }) {
   const user = useUser();
+  const router = useRouter();
   const messageEndRef = useRef<HTMLDivElement>(null);
+  const [isAdding, setIsAdding] = useState(false);
+  const [copiedId, setCopiedId] = useState<Id<"chats"> | null>(null);
+
+  const createNote = useMutation(api.notes.createNote);
   const chats = useQuery(api.chats.getChatsForDocument, {
     documentId,
   });
@@ -24,6 +33,39 @@ export default function ChatPanel({
     messageEndRef.current?.scrollIntoView({
       behavior: "smooth",
     });
+  };
+
+  const onCopyChat = async (chat: Doc<"chats">) => {
+    try {
+      setCopiedId(chat._id);
+      await navigator.clipboard.writeText(chat.text);
+
+      setTimeout(() => {
+        setCopiedId(null);
+      }, 1000);
+    } catch (error) {
+      console.error("Failed to copy: ", error);
+    }
+  };
+
+  const onAddNote = async (text: string) => {
+    try {
+      setIsAdding(true);
+      const noteId = await createNote({
+        text,
+      });
+
+      router.push(`/dashboard/notes/${noteId}`);
+    } catch (error) {
+      toast({
+        title: "Failed to add note",
+        description: "Something went wrong! Please try again later.",
+        variant: "destructive",
+      });
+      console.error("Failed to copy: ", error);
+    } finally {
+      setIsAdding(false);
+    }
   };
 
   useEffect(() => {
@@ -64,7 +106,7 @@ export default function ChatPanel({
                     chat.isHuman,
                   "bg-slate-50 dark:bg-slate-950 p-4": !chat.isHuman,
                 },
-                "rounded whitespace-pre-line flex items-start gap-2"
+                "group rounded whitespace-pre-line flex items-start gap-2 relative"
               )}
             >
               {!chat.isHuman && (
@@ -72,6 +114,27 @@ export default function ChatPanel({
               )}
               <Markdown className="flex-1">{chat.text}</Markdown>
               {chat.isHuman && <Avatar isHuman imgUrl={user.user?.imageUrl} />}
+
+              {!chat.isHuman &&
+                chat.text !== "The answer is not provided in the text." && (
+                  <div className="hidden absolute top-2 right-2 group-hover:flex items-center space-x-2">
+                    <Button size="sm" onClick={() => onCopyChat(chat)}>
+                      {copiedId === chat._id ? (
+                        <Check size={16} />
+                      ) : (
+                        <Copy size={16} />
+                      )}
+                    </Button>
+
+                    <Button
+                      disabled={isAdding}
+                      onClick={() => onAddNote(chat.text)}
+                      size="sm"
+                    >
+                      {!isAdding ? "Add as Note" : "Adding..."}
+                    </Button>
+                  </div>
+                )}
             </div>
           ))}
         <div ref={messageEndRef} />

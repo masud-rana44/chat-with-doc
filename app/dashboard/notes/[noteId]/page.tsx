@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Markdown from "react-markdown";
 import { useQuery } from "convex/react";
 import { useParams } from "next/navigation";
 import { api } from "@/convex/_generated/api";
@@ -37,7 +38,9 @@ export default function NoteIdPage() {
         </div>
       </div>
 
-      <p className="whitespace-pre-line overflow-y-auto">{note?.text}</p>
+      <Markdown className="whitespace-pre-line overflow-y-auto">
+        {note?.text}
+      </Markdown>
     </div>
   );
 }
