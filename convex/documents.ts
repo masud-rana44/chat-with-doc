@@ -105,6 +105,8 @@ export const createDocument = mutation({
         storageId: args.storageId,
       }
     );
+
+    return documentId;
   },
 });
 

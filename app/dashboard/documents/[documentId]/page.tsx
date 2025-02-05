@@ -3,7 +3,7 @@
 import React from "react";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import ChatPanel from "@/components/chat-panel";
 import { Id } from "@/convex/_generated/dataModel";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -12,7 +12,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function DocumentIdPage() {
   const params = useParams();
+  const searchParams = useSearchParams();
   const documentId = params.documentId as Id<"documents">;
+
+  const tab = searchParams.get("tab") || "document";
 
   const document = useQuery(api.documents.getDocument, {
     documentId,
@@ -39,7 +42,7 @@ export default function DocumentIdPage() {
         <DeleteDocumentButton documentId={documentId} />
       </div>
 
-      <Tabs defaultValue="document" className="max-w-[1000px]">
+      <Tabs defaultValue={tab} className="max-w-[1000px]">
         <TabsList>
           <TabsTrigger value="document">Document</TabsTrigger>
           <TabsTrigger value="chat">Chat</TabsTrigger>

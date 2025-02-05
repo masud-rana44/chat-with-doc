@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
 import { usePathname } from "next/navigation";
 import { useSidebar } from "./sidebar-context";
-import { File, NotebookPen, Search, Settings, X } from "lucide-react";
+import { File, NotebookPen, Search, X } from "lucide-react";
 
 export default function AppSidebar() {
   const pathname = usePathname();
@@ -16,7 +16,6 @@ export default function AppSidebar() {
     { name: "Search", href: "/dashboard/search", icon: Search },
     { name: "Documents", href: "/dashboard/documents", icon: File },
     { name: "Notes", href: "/dashboard/notes", icon: NotebookPen },
-    { name: "Settings", href: "/dashboard/settings", icon: Settings },
   ];
 
   return (

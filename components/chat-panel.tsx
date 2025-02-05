@@ -130,6 +130,7 @@ export default function ChatPanel({
                       disabled={isAdding}
                       onClick={() => onAddNote(chat.text)}
                       size="sm"
+                      className="disabled:opacity-100"
                     >
                       {!isAdding ? "Add as Note" : "Adding..."}
                     </Button>

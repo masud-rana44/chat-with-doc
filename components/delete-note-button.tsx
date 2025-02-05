@@ -9,6 +9,12 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Trash2 } from "lucide-react";
 import { btnIconStyles, btnStyles } from "@/styles/styles";
 import { Button } from "@/components/ui/button";
@@ -41,11 +47,21 @@ export default function DeleteNoteButton({ noteId }: { noteId: Id<"notes"> }) {
 
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-      <AlertDialogTrigger asChild className="self-end">
-        <Button variant="destructive" className={btnStyles}>
-          <Trash2 className={btnIconStyles} />
-        </Button>
-      </AlertDialogTrigger>
+      <TooltipProvider>
+        <Tooltip>
+          <AlertDialogTrigger asChild>
+            <TooltipTrigger asChild>
+              <Button variant="destructive" className={btnStyles}>
+                <Trash2 className={btnIconStyles} />
+              </Button>
+            </TooltipTrigger>
+          </AlertDialogTrigger>
+          <TooltipContent>
+            <p>Delete note</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>

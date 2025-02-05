@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "./ui/button";
-import { Eye } from "lucide-react";
+import { Eye, MessageCircle } from "lucide-react";
 import Link from "next/link";
 import { btnIconStyles } from "@/styles/styles";
 import { Skeleton } from "./ui/skeleton";
@@ -50,11 +50,18 @@ export default function DocumentCard({
             </p>
           ))}
       </CardContent>
-      <CardFooter>
+      <CardFooter className="flex items-center space-x-2">
         <Button asChild variant="secondary">
-          <Link href={`/dashboard/documents/${document._id}`}>
+          <Link href={`/dashboard/documents/${document._id}?tab=document`}>
             <Eye className={btnIconStyles} />
             View
+          </Link>
+        </Button>
+
+        <Button asChild variant="secondary">
+          <Link href={`/dashboard/documents/${document._id}?tab=chat`}>
+            <MessageCircle className={btnIconStyles} />
+            Chat
           </Link>
         </Button>
       </CardFooter>

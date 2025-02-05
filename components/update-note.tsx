@@ -8,6 +8,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
 import { useState } from "react";
 import { Edit } from "lucide-react";
 import { Button } from "./ui/button";
@@ -21,11 +28,21 @@ export default function UpdateNote({ note }: { note: Doc<"notes"> }) {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        <Button variant={"default"} className={btnStyles}>
-          <Edit className={btnIconStyles} />
-        </Button>
-      </DialogTrigger>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <DialogTrigger asChild>
+              <Button variant="secondary" className={btnStyles}>
+                <Edit className={btnIconStyles} />
+              </Button>
+            </DialogTrigger>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Edit note</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Update Your Note</DialogTitle>
