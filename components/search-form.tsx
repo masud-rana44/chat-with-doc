@@ -1,15 +1,15 @@
 "use client";
 
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { z } from "zod";
 import React from "react";
+import { cn } from "@/lib/utils";
 import { Input } from "./ui/input";
 import { useAction } from "convex/react";
 import { useForm } from "react-hook-form";
 import SubmitButton from "./submit-button";
 import { api } from "@/convex/_generated/api";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { cn } from "@/lib/utils";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 
 const formSchema = z.object({
   query: z.string().min(2).max(250),

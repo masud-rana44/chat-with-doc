@@ -1,17 +1,20 @@
 "use client";
 
-import React, { useState } from "react";
-import SearchForm from "@/components/search-form";
-import { api } from "@/convex/_generated/api";
 import Link from "next/link";
+import React, { useState } from "react";
+import { api } from "@/convex/_generated/api";
+import SearchForm from "@/components/search-form";
 import { FileIcon, NotebookPen } from "lucide-react";
 
 export default function SearchPage() {
   const [results, setResults] = useState<
     typeof api.search.searchAction._returnType
-  >(() =>
-    JSON.parse((localStorage && localStorage.getItem("results")) || "[]")
-  );
+  >(() => {
+    if (typeof window !== "undefined") {
+      return JSON.parse(localStorage.getItem("results") || "[]");
+    }
+    return [];
+  });
 
   return (
     <div>
